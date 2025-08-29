@@ -6,12 +6,14 @@ const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsSubmitting(true);
     try {
       const user = await login(email, password);
       if (user.role === 'admin') {
@@ -22,6 +24,8 @@ const LoginPage = () => {
     } catch (err) {
       setError('Failed to log in. Please check your credentials.');
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -44,7 +48,9 @@ const LoginPage = () => {
           required
         />
         {error && <p className="error-message">{error}</p>}
-        <button type="submit">Login</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Logging in...' : 'Login'}
+        </button>
       </form>
       <p>Don't have an account? <Link to="/register">Register here</Link></p>
     </div>

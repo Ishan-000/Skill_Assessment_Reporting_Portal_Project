@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import apiClient from '../../api/apiClient';
+import toast from 'react-hot-toast'; 
 
 const CreateSkillForm = ({ onSkillCreated }) => {
   const [name, setName] = useState('');
@@ -9,16 +10,14 @@ const CreateSkillForm = ({ onSkillCreated }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
     try {
       await apiClient.post('/skills', { name, description });
-      setSuccess(`Skill "${name}" created successfully!`);
+      toast.success(`Skill "${name}" created successfully!`); // USE TOAST
       setName('');
       setDescription('');
-      onSkillCreated(); // Notify parent to refetch skills
+      onSkillCreated();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create skill.');
+      toast.error(err.response?.data?.message || 'Failed to create skill.'); // USE TOAST
     }
   };
 
@@ -39,8 +38,6 @@ const CreateSkillForm = ({ onSkillCreated }) => {
           onChange={(e) => setDescription(e.target.value)}
           style={{ width: 'calc(100% - 20px)', minHeight: '60px', padding: '10px', margin: '10px 0', borderRadius: '5px', border: '1px solid var(--border-color)', backgroundColor: '#333', color: 'var(--text-color)', fontFamily: 'inherit'}}
         />
-        {error && <p className="error-message">{error}</p>}
-        {success && <p style={{ color: '#4caf50' }}>{success}</p>}
         <button type="submit">Create Skill</button>
       </form>
     </div>

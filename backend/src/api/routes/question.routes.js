@@ -8,6 +8,7 @@ const { questionSchema } = require('../validators/question.validator');
 // Admin route to create a question
 router.post('/', [verifyToken, isAdmin], validate(questionSchema), questionController.createQuestion);
 
+router.delete('/:id', [verifyToken, isAdmin], questionController.deleteQuestion);
 // User route to get questions for a quiz (Note: The route is on the skill, which is more RESTful)
 // We will move this logic to skill.routes.js for better structure
 // GET /api/skills/:skillId/questions

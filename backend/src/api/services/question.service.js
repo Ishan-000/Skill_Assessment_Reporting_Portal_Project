@@ -21,4 +21,10 @@ const findBySkill = async (skillId) => {
     return questions;
 };
 
-module.exports = { create, findBySkill };
+const deleteById = async (id) => {
+    const [result] = await pool.query('DELETE FROM questions WHERE id = ?', [id]);
+    // The `affectedRows` property will be 1 if a row was deleted, 0 otherwise.
+    return result.affectedRows;
+};
+
+module.exports = { create, findBySkill, deleteById };

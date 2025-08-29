@@ -4,6 +4,7 @@ import SkillGapReport from '../components/admin/skillGapReport';
 import CreateSkillForm from '../components/admin/CreateSkillForm';
 import CreateQuestionForm from '../components/admin/CreateQuestionForm';
 import Loader from '../components/common/Loader';
+import AdminQuestionList from '../components/admin/AdminQuestionList';
 
 const AdminPage = () => {
   const [skills, setSkills] = useState([]);
@@ -45,7 +46,7 @@ const AdminPage = () => {
             <CreateQuestionForm skills={skills} />
         </div>
       </div>
-
+      <AdminQuestionList skills={skills} />
       <hr />
 
       <h3>Reporting</h3>
